@@ -1,0 +1,22 @@
+version: '2.6.1'
+services:
+  mysql:
+    container_name: mysql
+    hostname: localhost
+    restart: always
+    image: mysql:8.0.32
+    volumes:
+      - .data/db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=acevip123
+      - MYSQL_USER=chuhieu
+      - MYSQL_PASSWORD=acevip123
+      - MYSQL_DATABASE=nestjs
+      - DB_HOST=localhost
+    networks:
+      - bridge
+networks:
+  bridge:
+    driver: bridge

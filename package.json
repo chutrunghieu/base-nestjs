@@ -19,8 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
-    "migration": "npx typeorm-ts-node-commonjs migration:run -- -d ./ormconfig.ts",
-    "revert ": "typeorm migration:revert -- -d ./ormconfig.ts"
+    "migration": "npm run typeorm migration:run -- -d ./ormconfig.ts",
+    "revert ": "npm run typeorm migration:revert -- -d ./ormconfig.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -28,7 +28,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
-    "mysql": "^2.18.1",
+    "mysql": "npm:mysql2@^2.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12"
