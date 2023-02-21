@@ -27,11 +27,6 @@ export class users1676865299448 implements MigrationInterface {
                     isNullable: false,
                 },
                 {
-                    name: "tokenID",
-                    type: 'int',
-                    isNullable: false,
-                },
-                {
                     name: 'created_at',
                     type: 'datetime',
                     default: 'now()',
@@ -52,15 +47,6 @@ export class users1676865299448 implements MigrationInterface {
               onDelete: 'SET DEFAULT'
             })
           );
-          await queryRunner.createForeignKey(
-            'users',
-            new TableForeignKey({
-                columnNames: ['tokenID'],
-                referencedTableName: 'users',
-                referencedColumnNames: ['id'],
-                onDelete: 'CASCADE'
-            })
-        );
     }
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable("users");

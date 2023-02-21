@@ -14,7 +14,7 @@ export class UsersService {
         const user = this.usersRepository.create(CreateUserDto);
         await this.usersRepository.save(user);
     }
-    async updatePost(id: number, UpdateUserDto: UpdateUserDto): Promise<void> {
+    async updateUser(id: number, UpdateUserDto: UpdateUserDto): Promise<void> {
         const update = this.usersRepository
           .createQueryBuilder('users')
           .where('users.id = :id', { id });
