@@ -1,5 +1,5 @@
-import { Role } from "src/roles/roles.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
+import { Role } from "../roles/roles.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm"
 
 @Entity()
 export class User {
@@ -12,6 +12,13 @@ export class User {
     @Column()
     age: number;
 
-    @ManyToOne(() => Role, (role) => role.users, {onDelete: 'SET NULL'})
+    @Column()
+    roleID: number;
+
+    @ManyToOne(() => Role, (role) => role.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    })
+    @JoinColumn({name : 'id'})
     role: Role;
 }

@@ -4,7 +4,7 @@ export class users1676865299448 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "users",
+            name: "user",
             columns: [
                 {
                     name: 'id',
@@ -24,7 +24,7 @@ export class users1676865299448 implements MigrationInterface {
                 {
                     name: "roleID",
                     type: 'int',
-                    isNullable: false,
+                    default: 0
                 },
                 {
                     name: 'created_at',
@@ -39,16 +39,17 @@ export class users1676865299448 implements MigrationInterface {
             ]
         }), true)
         await queryRunner.createForeignKey(
-            'users',
+            'user',
             new TableForeignKey({
               columnNames: ['roleID'],
-              referencedTableName: 'roles',
+              referencedTableName: 'role',
               referencedColumnNames: ['id'],
-              onDelete: 'SET DEFAULT'
+              onDelete: 'CASCADE',
+              onUpdate: 'CASCADE'
             })
           );
     }
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("users");
+        await queryRunner.dropTable("user");
     }
 }

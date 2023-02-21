@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Post, Body, Put, Param, Delete, Res, HttpCode } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put, Param, Delete, Res, HttpCode, UseInterceptors, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from "./users.service";
@@ -7,31 +7,34 @@ export class UsersController {
   constructor(
     private userService: UsersService,
   ) { }
-  @Post('addUser')
+  @Post('/addUser')
   @HttpCode(200)
   async create(@Body() CreateUserDto: CreateUserDto, @Res() res: Response) {
-    const addUser = await this.userService.createUser(CreateUserDto);
-    return { message: 'Success!', data: { addUser } };
+    const newUser = await this.userService.createUser(CreateUserDto);
+    return { message: 'Success!', data: { newUser } }
   }
-  @Delete('deleteUser/:id')
+  @Delete('/deleteUser/:id')
   @HttpCode(200)
-  async delete(id: number, @Res() res: Response) {
-    const deleteUser = await this.userService.deleteUser(id);
+  delete(id: number, @Res() res: Response) {
+    const deleteUser = this.userService.deleteUser(id);
     return { message: 'Success!', data: { deleteUser } };
   }
-  @Get('getAllUser')
+  @Get('/getAllUser')
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('users')
+  @CacheTTL(1000)
   @HttpCode(200)
   async getAll() {
     const getAll = await this.userService.findAll();
     return { message: 'Success!', data: { getAll } };
   }
-  @Get('getUser')
+  @Get('/getUser')
   @HttpCode(200)
   async getOne(id: number) {
     const getOne = await this.userService.findOne(id);
     return { message: 'Success!', data: { getOne } };
   }
-  @Put('updateUser/:id')
+  @Put('/updateUser/:id')
   @HttpCode(200)
   async update(@Param() id: number, @Body() UpdateUserDto: UpdateUserDto) {
     const updateUser = await this.userService.updateUser(id, UpdateUserDto)

@@ -13,7 +13,7 @@ export const dataSource = new DataSource({
     username: 'chuhieu',
     password: 'acevip123',
     database: 'nestjs',
-    entities: [Token, User, Role],
+    entities: [Role, User, Token ],
     migrations: [roles1676625537618, users1676865299448, token1676865304737],
     synchronize: false,
 });

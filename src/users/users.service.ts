@@ -1,23 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, CACHE_MANAGER } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { Cache} from 'cache-manager';
+
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
+        @Inject(CACHE_MANAGER) private readonly cache: Cache
     ) { }
-    async createUser(CreateUserDto: CreateUserDto): Promise<void> {
+    async createUser(CreateUserDto: CreateUserDto): Promise<User> {
+      console.log(CreateUserDto);
         const user = this.usersRepository.create(CreateUserDto);
-        await this.usersRepository.save(user);
+        return await this.usersRepository.save(user);
     }
     async updateUser(id: number, UpdateUserDto: UpdateUserDto): Promise<void> {
         const update = this.usersRepository
-          .createQueryBuilder('users')
-          .where('users.id = :id', { id });
+          .createQueryBuilder('user')
+          .where('user.id = :id', { id });
     
         const userEntity = await update.getOne();
     
@@ -27,7 +31,8 @@ export class UsersService {
       }
     
     async findAll(): Promise<User[]> {
-        return this.usersRepository.find();
+        const users = await this.usersRepository.find();
+        return users
       }
     
     async findOne(id: number): Promise<User> {
@@ -36,8 +41,8 @@ export class UsersService {
     
     async deleteUser(id: number): Promise<void> {
         const queryBuilder = this.usersRepository
-          .createQueryBuilder('users')
-          .where('users.id = :id', { id });
+          .createQueryBuilder('user')
+          .where('user.id = :id', { id });
     
         const userEntity = await queryBuilder.getOne();
 

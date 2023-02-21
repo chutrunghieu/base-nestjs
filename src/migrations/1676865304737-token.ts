@@ -4,12 +4,13 @@ export class token1676865304737 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "tokens",
+            name: "token",
             columns: [
                 {
                     name: "id",
                     type: "int",
                     isPrimary: true,
+                    isGenerated: true,
                     generationStrategy: 'increment',
                 },
                 {
@@ -26,16 +27,17 @@ export class token1676865304737 implements MigrationInterface {
             true,
         )
         await queryRunner.createForeignKey(
-            'tokens',
+            'token',
             new TableForeignKey({
                 columnNames: ['userID'],
-                referencedTableName: 'users',
+                referencedTableName: 'user',
                 referencedColumnNames: ['id'],
-                onDelete: 'CASCADE'
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE'
             })
         );
     }
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("tokens");
+        await queryRunner.dropTable("token");
     }
 }
