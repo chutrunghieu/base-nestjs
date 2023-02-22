@@ -2,6 +2,8 @@ import { Controller, Get, Query, Post, Body, Put, Param, Delete, Res, HttpCode, 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from "./users.service";
+import * as bcrypt from 'bcrypt';
+
 @Controller('users')
 export class UsersController {
   constructor(
@@ -10,6 +12,7 @@ export class UsersController {
   @Post('/addUser')
   @HttpCode(200)
   async create(@Body() CreateUserDto: CreateUserDto, @Res() res: Response) {
+    CreateUserDto.password = await bcrypt.hash(CreateUserDto.password, 10);
     const newUser = await this.userService.createUser(CreateUserDto);
     return { message: 'Success!', data: { newUser } }
   }
@@ -31,7 +34,7 @@ export class UsersController {
   @Get('/getUser')
   @HttpCode(200)
   async getOne(id: number) {
-    const getOne = await this.userService.findOne(id);
+    const getOne = await this.userService.findById(id);
     return { message: 'Success!', data: { getOne } };
   }
   @Put('/updateUser/:id')

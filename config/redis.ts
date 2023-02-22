@@ -45,7 +45,7 @@ export class CacheModule implements OnModuleInit {
         const cache = this.cache;
         commands.forEach((commandName) => {
             const oldCommand = cache[commandName];
-            cache[commandName] = async (...args) => {
+            cache[commandName] = async (...args: any[]) => {
                 // Computes the duration
                 const start = new Date();
                 const result = await oldCommand.call(cache, ...args);

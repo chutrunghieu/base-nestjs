@@ -14,6 +14,16 @@ export class users1676865299448 implements MigrationInterface {
                     generationStrategy: 'increment',
                 },
                 {
+                    name: "email",
+                    type: "varchar",
+                    isUnique: true,
+                },
+                {
+                    name: "password",
+                    type: "varchar",
+                    default: '123456',
+                },
+                {
                     name: "name",
                     type: "varchar",
                 },

@@ -9,6 +9,7 @@ import { token1676865304737 } from './migrations/1676865304737-token';
 import { RolesModule } from './roles/roles.module';
 import { TokensModule } from './tokens/tokens.module';
 import { CacheModule } from "../config/redis";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [UsersModule,
@@ -26,6 +27,7 @@ import { CacheModule } from "../config/redis";
     }),
     RolesModule,
     TokensModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

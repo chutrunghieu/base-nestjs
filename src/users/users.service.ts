@@ -14,7 +14,6 @@ export class UsersService {
         @Inject(CACHE_MANAGER) private readonly cache: Cache
     ) { }
     async createUser(CreateUserDto: CreateUserDto): Promise<User> {
-      console.log(CreateUserDto);
         const user = this.usersRepository.create(CreateUserDto);
         return await this.usersRepository.save(user);
     }
@@ -35,9 +34,13 @@ export class UsersService {
         return users
       }
     
-    async findOne(id: number): Promise<User> {
+    async findById(id: number): Promise<User> {
         return this.usersRepository.findOneBy({ id });
       }
+
+    async findOne(email: string): Promise<User> {
+      return this.usersRepository.findOneBy({ email : email });
+    }
     
     async deleteUser(id: number): Promise<void> {
         const queryBuilder = this.usersRepository
